@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+</head>
+<body>
+<h2>Пользователи</h2>
+<table>
+    <tr>
+        <th>Логин</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Роль</th>
+    </tr>
+    <tbody>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getSurname()}"></td>
+        <td>
+            <a th:each="role, iter: ${user.getRoles()}" th:text="${role.name} + ${!iter.last ? ', ' : ''}"></a>
+        </td>
+        <td>
+            <form th:method="GET" th:action="@{/edit/{id}(id=${user.getId()})}">
+                <input type="submit" value="Редактировать"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.getId()})}">
+                <input type="submit" value="Удалить"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Добавить</h2>
+<a th:href="@{/newUser}">Добавить нового пользователя</a>
+<h2>Зарегестрированный пользователь: <a th:href="@{/user}" th:text="${#request.userPrincipal.principal.username}">text</a></h2>
+<a th:href="@{logout}">Выйти</a>
+</body>
+</html>

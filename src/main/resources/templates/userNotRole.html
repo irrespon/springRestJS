@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" >
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"  >
     <head>
     <title>Spring Security Example</title>
 </head>
@@ -8,10 +8,7 @@
 <h2>Зарегестрированный пользователь: <b th:text="${#request.userPrincipal.principal.username}"></b></h2>
 <h2>Имя: <b th:text="${#request.userPrincipal.principal.name}"></b></h2>
 <h2>Фамилия: <b th:text="${#request.userPrincipal.principal.surname}"></b></h2>
-<h2>Роли: <b th:each = "role,iter: ${#request.userPrincipal.principal.roles}" th:text="${role.name} + ${!iter.last ? ', ' : ''}"></b></h2>
-<div sec:authorize="hasRole('ADMIN')">
-    <a th:href="@{admin}">страница /admin</a>
-</div>
+
 <a th:href="@{logout}">Выйти</a>
 </body>
 </html>
