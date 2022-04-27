@@ -13,13 +13,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (name = "username")
+    @Column(name = "username")
     private String userName;
-    @Column (name = "password")
+    @Column(name = "password")
     private String password;
-    @Column (name = "name")
+    @Column(name = "name")
     private String name;
-    @Column (name = "surname")
+    @Column(name = "surname")
     private String surname;
     @Transient
     private String passwordConfirm;

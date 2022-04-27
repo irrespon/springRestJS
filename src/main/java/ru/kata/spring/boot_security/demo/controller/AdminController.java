@@ -28,43 +28,43 @@ public class AdminController {
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-      return "redirect:/admin";
+        return "redirect:/admin";
     }
 
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
         User user = userService.findUserById(id);
         model.addAttribute(user);
-        model.addAttribute("allRoles",userService.getAllRoles());
+        model.addAttribute("allRoles", userService.getAllRoles());
         return "editPage";
     }
 
     @PostMapping()
-    public String updateUser (@ModelAttribute ("user") User user) {
+    public String updateUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PutMapping("/edit/{id}")
-    public String createUser (@ModelAttribute ("user") User user) {
+    public String createUser(@ModelAttribute("user") User user) {
         userService.edit(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/newUser")
-    public String newUser (Model model) {
+    public String newUser(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("allRoles",userService.getAllRoles());
+        model.addAttribute("allRoles", userService.getAllRoles());
         return "newUser";
     }
 
     @GetMapping("/user")
-    public String infoUser(){
+    public String infoUser() {
         return "/user";
     }
 
     @GetMapping("/userNotRole")
-    public String infoUserNotRole(){
+    public String infoUserNotRole() {
         return "userNotRole";
     }
 }

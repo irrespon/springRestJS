@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,12 +17,11 @@ import java.util.*;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    final
-    UserRepository userRepository;
-    final
-    RoleRepository roleRepository;
-    final
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    final UserRepository userRepository;
+
+    final RoleRepository roleRepository;
+
+    final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public MyUserDetailsService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
@@ -32,11 +32,12 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(username);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("user not found");
         }
         return user;
     }
+
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
@@ -66,7 +67,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return false;
     }
 
-    public void addRole(Role role){
+    public void addRole(Role role) {
         roleRepository.save(role);
     }
 
@@ -76,7 +77,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return roles;
     }
 
-    public void edit(User user){
+    public void edit(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

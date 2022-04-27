@@ -20,19 +20,15 @@ import javax.annotation.PostConstruct;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    final
-    MyUserDetailsService userDetailsService;
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
-    private final SuccessUserHandler successUserHandler;
+    @Autowired
+    private SuccessUserHandler successUserHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, MyUserDetailsService userDetailsService) {
-        this.successUserHandler = successUserHandler;
-        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -59,10 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @PostConstruct
-    public void addRoles(){
-        userDetailsService.addRole(new Role(1L,"ROLE_USER"));
-        userDetailsService.addRole(new Role(2L,"ROLE_ADMIN"));
-        User user = new User("admin","admin","Иван","Иванов",userDetailsService.getAllRoles());
+    public void addRoles() {
+        userDetailsService.addRole(new Role(1L, "ROLE_USER"));
+        userDetailsService.addRole(new Role(2L, "ROLE_ADMIN"));
+        User user = new User("admin", "admin", "Иван", "Иванов", userDetailsService.getAllRoles());
         userDetailsService.saveUser(user);
     }
 }
