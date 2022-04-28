@@ -1,17 +1,22 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
+import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 @Controller
 public class AdminController {
-    private final MyUserDetailsService userService;
+    private final UserServiceImpl userService;
 
-    public AdminController(MyUserDetailsService userService) {
+    private final RoleServiceImpl roleService;
+
+    public AdminController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/admin")
@@ -35,7 +40,7 @@ public class AdminController {
     public String editPage(@PathVariable("id") Long id, Model model) {
         User user = userService.findUserById(id);
         model.addAttribute(user);
-        model.addAttribute("allRoles", userService.getAllRoles());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "editPage";
     }
 
@@ -54,7 +59,7 @@ public class AdminController {
     @GetMapping("/newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("allRoles", userService.getAllRoles());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "newUser";
     }
 

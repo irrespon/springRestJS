@@ -1,10 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.RoleRepository;
@@ -15,27 +10,15 @@ import ru.kata.spring.boot_security.demo.model.User;
 import java.util.*;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class UserServiceImpl {
 
     final UserRepository userRepository;
 
-    final RoleRepository roleRepository;
-
     final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public MyUserDetailsService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("user not found");
-        }
-        return user;
     }
 
     public User findUserById(Long userId) {
@@ -65,16 +48,6 @@ public class MyUserDetailsService implements UserDetailsService {
             return true;
         }
         return false;
-    }
-
-    public void addRole(Role role) {
-        roleRepository.save(role);
-    }
-
-    public Set<Role> getAllRoles() {
-        Set<Role> roles = new HashSet<>();
-        roles.addAll(roleRepository.findAll());
-        return roles;
     }
 
     public void edit(User user) {

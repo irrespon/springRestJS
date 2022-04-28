@@ -12,7 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
+import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
 
 import javax.annotation.PostConstruct;
 
@@ -21,7 +23,13 @@ import javax.annotation.PostConstruct;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    private RoleServiceImpl roleService;
 
     @Autowired
     private SuccessUserHandler successUserHandler;
@@ -56,9 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @PostConstruct
     public void addRoles() {
-        userDetailsService.addRole(new Role(1L, "ROLE_USER"));
-        userDetailsService.addRole(new Role(2L, "ROLE_ADMIN"));
-        User user = new User("admin", "admin", "Иван", "Иванов", userDetailsService.getAllRoles());
-        userDetailsService.saveUser(user);
+        roleService.addRole(new Role(1L, "ROLE_USER"));
+        roleService.addRole(new Role(2L, "ROLE_ADMIN"));
+        User user = new User("admin", "admin", "Иван", "Иванов", roleService.getAllRoles());
+        userService.saveUser(user);
     }
 }
