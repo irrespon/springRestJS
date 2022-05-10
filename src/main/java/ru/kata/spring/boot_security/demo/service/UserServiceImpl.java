@@ -10,7 +10,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import java.util.*;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService{
 
     final UserRepository userRepository;
 
@@ -32,7 +32,7 @@ public class UserServiceImpl {
 
     public boolean saveUser(User user) {
 
-        User userFromDB = userRepository.findByUserName(user.getUsername());
+        User userFromDB = userRepository.findByEmail(user.getEmail());
         if (userFromDB != null) {
             return true;
         }

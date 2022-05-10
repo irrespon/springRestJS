@@ -22,6 +22,8 @@ public class AdminController {
     @GetMapping("/admin")
     public String userList(Model model) {
         model.addAttribute("users", userService.allUsers());
+        model.addAttribute("user", new User());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "admin";
     }
 
@@ -45,13 +47,14 @@ public class AdminController {
     }
 
     @PostMapping()
-    public String updateUser(@ModelAttribute("user") User user) {
+    public String createUser(@ModelAttribute("user") User user) {
+        System.out.println(user.getRoles());
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PutMapping("/edit/{id}")
-    public String createUser(@ModelAttribute("user") User user) {
+    public String updateUser(@ModelAttribute("user") User user) {
         userService.edit(user);
         return "redirect:/admin";
     }
@@ -71,5 +74,10 @@ public class AdminController {
     @GetMapping("/userNotRole")
     public String infoUserNotRole() {
         return "userNotRole";
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 }

@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Данные пользователя</h1>
-<h2>Зарегестрированный пользователь: <b th:text="${#request.userPrincipal.principal.username}"></b></h2>
+<h2>Зарегестрированный пользователь: <b th:text="${#request.userPrincipal.principal.email}"></b></h2>
 <h2>Имя: <b th:text="${#request.userPrincipal.principal.name}"></b></h2>
 <h2>Фамилия: <b th:text="${#request.userPrincipal.principal.surname}"></b></h2>
 <h2>Роли: <b th:each = "role,iter: ${#request.userPrincipal.principal.roles}" th:text="${role.name} + ${!iter.last ? ', ' : ''}"></b></h2>

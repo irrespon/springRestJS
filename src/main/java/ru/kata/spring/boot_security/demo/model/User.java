@@ -13,14 +13,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "username")
-    private String userName;
+    @Column(name = "email")
+    private String email;
     @Column(name = "password")
     private String password;
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
     private String surname;
+    @Column(name = "age")
+    private int age;
     @Transient
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -29,12 +31,21 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, String name, String surname, Set<Role> roles) {
-        this.userName = username;
+    public User(String email, String password, String name, String surname, int age, Set<Role> roles) {
+        this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
+        this.age = age;
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {
@@ -45,13 +56,13 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public void setUsername(String userName) {
-        this.userName = userName;
-    }
-
+//    public void setUsername(String email) {
+//       // this.email = email;
+//    }
+//
     @Override
     public String getUsername() {
-        return userName;
+        return null;
     }
 
     public String getName() {
@@ -109,6 +120,14 @@ public class User implements UserDetails {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public Set<Role> getRoles() {
