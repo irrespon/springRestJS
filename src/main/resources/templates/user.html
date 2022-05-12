@@ -1,17 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" >
-    <head>
-    <title>Spring Security Example</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title tiles:fragment="title">Admin panel</title>
 </head>
 <body>
-<h1>Данные пользователя</h1>
-<h2>Зарегестрированный пользователь: <b th:text="${#request.userPrincipal.principal.email}"></b></h2>
-<h2>Имя: <b th:text="${#request.userPrincipal.principal.name}"></b></h2>
-<h2>Фамилия: <b th:text="${#request.userPrincipal.principal.surname}"></b></h2>
-<h2>Роли: <b th:each = "role,iter: ${#request.userPrincipal.principal.roles}" th:text="${role.name} + ${!iter.last ? ', ' : ''}"></b></h2>
-<div sec:authorize="hasRole('ADMIN')">
-    <a th:href="@{admin}">страница /admin</a>
+<div class="container-fluid bg-light">
+    <!--первая строка-->
+    <div class="row bg-dark">
+        <div class="col ">
+            <ul class="list-inline text-white mb-0 mt-2">
+                <li class="list-inline-item h4" th:text="${#request.userPrincipal.principal.email}">email</li>
+                <li class="list-inline-item h4 font-weight-light">with roles:</li>
+                <li class="list-inline-item h4 font-weight-light"
+                    th:each="role, iter: ${#request.userPrincipal.principal.roles}"
+                    th:text="${role.name} + ${!iter.last ? ' ' : ''}">roles
+                </li>
+            </ul>
+        </div>
+        <div class="col-auto">
+            <ul class="list-inline text-white mb-0 mt-2">
+                <li class="list-inline-item h6  "><a th:href="@{logout}"
+                                                     class="font-weight-light text-white-50">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--вторая строка-->
+    <div class="row no-gutters" style="height:100vh">
+        <!--левая колонка с выбором admin, user-->
+        <ul class="nav nav-pills flex-column bg-white col-xl-2  ml-n3" id="tabAdminUser" role="tablist">
+            <li class="nav-item active mt-3">
+                <a class="nav-link active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user"
+                   aria-selected="true">User</a>
+            </li>
+        </ul>
+        <!--правая колонка admin, user-->
+        <div class="tab-content col ">
+            <!--правая колонка с содержимом user (User information-page)-->
+            <div class="tab-pane active m-4" id="user" role="tabpanel" aria-labelledby="user-tab">
+                <h1>User information-page</h1>
+                <div class="tab-pane active" id="usersTable" role="tabpanel" aria-labelledby="usersTable-tab">
+                    <h5 class="border m-0 p-3">About user</h5>
+                    <div class="border bg-white">
+                        <div class="m-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${#request.userPrincipal.principal.id}"></td>
+                                    <td th:text="${#request.userPrincipal.principal.name}"></td>
+                                    <td th:text="${#request.userPrincipal.principal.surname}"></td>
+                                    <td th:text="${#request.userPrincipal.principal.age}"></td>
+                                    <td th:text="${#request.userPrincipal.principal.email}"></td>
+                                    <td>
+                                        <a th:each="role, iter: ${#request.userPrincipal.principal.roles}"
+                                           th:text="${role.name} + ${!iter.last ? ' ' : ''}">Roles</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<a th:href="@{logout}">Выйти</a>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -2,15 +2,13 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.dao.RoleRepository;
 import ru.kata.spring.boot_security.demo.dao.UserRepository;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     final UserRepository userRepository;
 
@@ -31,12 +29,10 @@ public class UserServiceImpl implements UserService{
     }
 
     public boolean saveUser(User user) {
-
         User userFromDB = userRepository.findByEmail(user.getEmail());
         if (userFromDB != null) {
-            return true;
+            return false;
         }
-
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -50,9 +46,13 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
-    public void edit(User user) {
+    public boolean edit(User user) {
+        User userFromDB = userRepository.findByEmail(user.getEmail());
+        if ((userFromDB != null) && (userFromDB.getId() != user.getId())) {
+            return false;
+        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return true;
     }
-
 }

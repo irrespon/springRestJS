@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +13,8 @@ public class AdminController {
 
     private final RoleServiceImpl roleService;
 
+    private boolean resultEditUser;
+
     public AdminController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
         this.roleService = roleService;
@@ -24,6 +25,7 @@ public class AdminController {
         model.addAttribute("users", userService.allUsers());
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
+        model.addAttribute("alarm", resultEditUser);
         return "admin";
     }
 
@@ -55,7 +57,7 @@ public class AdminController {
 
     @PutMapping("/edit/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
-        userService.edit(user);
+        resultEditUser = !userService.edit(user);
         return "redirect:/admin";
     }
 
