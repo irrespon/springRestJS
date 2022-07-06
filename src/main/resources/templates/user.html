@@ -12,18 +12,12 @@
     <!--первая строка-->
     <div class="row bg-dark">
         <div class="col ">
-            <ul class="list-inline text-white mb-0 mt-2">
-                <li class="list-inline-item h4" th:text="${#request.userPrincipal.principal.email}">email</li>
-                <li class="list-inline-item h4 font-weight-light">with roles:</li>
-                <li class="list-inline-item h4 font-weight-light"
-                    th:each="role, iter: ${#request.userPrincipal.principal.roles}"
-                    th:text="${role.name} + ${!iter.last ? ' ' : ''}">roles
-                </li>
+            <ul class="list-inline text-white mb-0 mt-2" id = "emailUser">
             </ul>
         </div>
         <div class="col-auto">
             <ul class="list-inline text-white mb-0 mt-2">
-                <li class="list-inline-item h6  "><a th:href="@{logout}"
+                <li class="list-inline-item h6  "><a href=/logout
                                                      class="font-weight-light text-white-50">Logout</a></li>
             </ul>
         </div>
@@ -57,18 +51,8 @@
                                     <th>Role</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td th:text="${#request.userPrincipal.principal.id}"></td>
-                                    <td th:text="${#request.userPrincipal.principal.name}"></td>
-                                    <td th:text="${#request.userPrincipal.principal.surname}"></td>
-                                    <td th:text="${#request.userPrincipal.principal.age}"></td>
-                                    <td th:text="${#request.userPrincipal.principal.email}"></td>
-                                    <td>
-                                        <a th:each="role, iter: ${#request.userPrincipal.principal.roles}"
-                                           th:text="${role.name} + ${!iter.last ? ' ' : ''}">Roles</a>
-                                    </td>
-                                </tr>
+                                <tbody id = "loginUserId">
+
                                 </tbody>
                             </table>
                         </div>
@@ -88,5 +72,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="/static/user.js"></script>
 </body>
 </html>

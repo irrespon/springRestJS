@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +9,10 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
+import java.util.List;
+
 @Controller
+@CrossOrigin(origins = {"http://localhost:8080"})
 public class AdminController {
     private final UserServiceImpl userService;
 
@@ -50,7 +55,6 @@ public class AdminController {
 
     @PostMapping()
     public String createUser(@ModelAttribute("user") User user) {
-        System.out.println(user.getRoles());
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -82,4 +86,6 @@ public class AdminController {
     public String loginPage() {
         return "login";
     }
+
+
 }

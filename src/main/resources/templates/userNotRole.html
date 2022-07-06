@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"  >
     <head>
+
     <title>Spring Security Example</title>
 </head>
 <body>
@@ -11,6 +12,6 @@
 <h2>Почта: <b th:text="${#request.userPrincipal.principal.email}"></b></h2>
 <h2>Возраст: <b th:text="${#request.userPrincipal.principal.age}"></b></h2>
 
-<a th:href="@{logout}">Выйти</a>
+<a href="/logout">Выйти</a>
 </body>
 </html>

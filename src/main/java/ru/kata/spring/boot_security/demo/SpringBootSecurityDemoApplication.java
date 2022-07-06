@@ -7,10 +7,10 @@ import ru.kata.spring.boot_security.demo.dao.UserRepository;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
-public class SpringBootSecurityDemoApplication1 {
+public class SpringBootSecurityDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootSecurityDemoApplication1.class, args);
+		SpringApplication.run(SpringBootSecurityDemoApplication.class, args);
 	}
 
 }
