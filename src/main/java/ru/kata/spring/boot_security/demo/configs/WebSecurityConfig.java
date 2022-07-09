@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
@@ -18,6 +21,9 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -69,6 +75,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
     }
+
+//    @Bean
+//    public SimpleUrlHandlerMapping customFaviconHandlerMapping() {
+//        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+//        mapping.setOrder(Integer.MIN_VALUE);
+//        mapping.setUrlMap(Collections.singletonMap(
+//                "/favicon.ico", faviconRequestHandler()));
+//        return mapping;
+//    }
+//
+//    @Bean
+//    protected ResourceHttpRequestHandler faviconRequestHandler() {
+//        ResourceHttpRequestHandler requestHandler
+//                = new ResourceHttpRequestHandler();
+//        ClassPathResource classPathResource
+//                = new ClassPathResource("/localhost/");
+//        List locations = Arrays.asList(classPathResource);
+//        requestHandler.setLocations(locations);
+//        return requestHandler;
+//    }
 
     @Bean
     @PostConstruct

@@ -54,7 +54,9 @@ public class UserServiceImpl implements UserService {
         if ((userFromDB != null) && (userFromDB.getId() != user.getId())) {
             return false;
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if(user.getPasswordConfirm()) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
         return true;
     }

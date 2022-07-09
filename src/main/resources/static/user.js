@@ -7,7 +7,6 @@ const name = document.getElementById('name')
 const email = document.getElementById('email')
 
 const nURoles = document.getElementById('newUserRoles')
-
 const loginUserTable = document.getElementById("loginUserId")
 const loginUserEmail = document.getElementById("emailUser")
 
@@ -15,11 +14,11 @@ let rolesT = ''
 
 const allRoles = (allRolesTemp, strHtml) => {
     rolesT = allRolesTemp
-    let temp = ""
-    rolesT.forEach(r => {
-        temp += "<option value = " + r.id + ">" + r.name + "</option>"
-    })
-    strHtml.innerHTML = temp
+    // let temp = ""
+    // rolesT.forEach(r => {
+    //     temp += "<option value = " + r.id + ">" + r.name + "</option>"
+    // })
+    // strHtml.innerHTML = temp
 }
 
 let rolesName = (userRoles, rolesT) => {
@@ -34,7 +33,7 @@ let rolesName = (userRoles, rolesT) => {
     return tempRole
 }
 
-const usersTableJS = (users, uTable) => {
+const usersTableJS = (users, strHtml) => {
     let arrUsers = []
     let statusArrUser = '';
 
@@ -62,34 +61,37 @@ const usersTableJS = (users, uTable) => {
             }
             temp += '</tr>'
         })
-        uTable.innerHTML = temp;
+        strHtml.innerHTML = temp;
     }
 }
 
-let lUserEmail = user => {
+let lUserEmail = (user, strHtml) => {
     let temp = ""
     temp += '<li class="list-inline-item h4">' + user.email + '</li>';
     temp += '<li class="list-inline-item h4 font-weight-light">with roles:</li>';
     user.roles.forEach(r=>{
         temp += '<li class="list-inline-item h4 font-weight-light">' + r.name + '</li>'
     })
-    loginUserEmail.innerHTML = temp
+    strHtml.innerHTML = temp
 }
 
-async function fetchAsyncT(dataDB, url, uTable) {
+async function fetchAsyncT(dataDB, url, strHtml) {
     try {
         const resp = await fetch(url)
         const data = await resp.json()
-        dataDB(data, uTable)
+        dataDB(data, strHtml)
 
     } catch (e) {
         console.error(e)
     } finally {
     }
 }
+call()
+async function call() {
+    await fetchAsyncT(allRoles, urlAllRoles, nURoles)
 
-fetchAsyncT(allRoles, urlAllRoles, nURoles)
+    await fetchAsyncT(lUserEmail, urlLoginUser, loginUserEmail)
 
-fetchAsyncT(lUserEmail, urlLoginUser, loginUserEmail)
+    await fetchAsyncT(usersTableJS, urlLoginUser, loginUserTable)
+}
 
-fetchAsyncT(usersTableJS, urlLoginUser, loginUserTable)

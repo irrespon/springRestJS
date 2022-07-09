@@ -43,7 +43,8 @@ const allRoles = (allRolesTemp, strHtml) => {
     })
     strHtml.innerHTML = temp
 }
-
+//password
+let passwordTemp = ''
 //данные для редактирования пользователя
 const userOne = (user, strHtml) => {
     let temp = ""
@@ -57,6 +58,8 @@ const userOne = (user, strHtml) => {
         temp += "<option value = " + r.id + ">" + r.name + "</option>"
     })
     strHtml.innerHTML = temp
+
+    passwordTemp = password.value
 }
 
 //формирование ролей, сравнивая роли по id роли юзера и роли в базе, получение имен ролей из базы
@@ -163,6 +166,7 @@ on(document, 'click', '.btnEdit', e => {
     password.readOnly = false
     roles.readOnly = false
     roles.disabled = false
+    //
 
     //атрибуты Edit для кнопки модального окна, если нажимаем Edit в таблице
     submitButtonBS.setAttribute('type','button')
@@ -217,14 +221,31 @@ submitButtonBS.onclick = (e) => {
     }
 
     //объект пользователя
-    let eUser = {
-        age: age.value,
-        name: name.value,
-        surname: surname.value,
-        id: id.value,
-        email: email.value,
-        password: password.value,
-        roles: tempRol
+    let eUser =''
+    if(passwordTemp !== password.value) {
+        console.log('1')
+        eUser = {
+            age: age.value,
+            name: name.value,
+            surname: surname.value,
+            id: id.value,
+            email: email.value,
+            password: password.value,
+            roles: tempRol,
+            passwordConfirm: true
+        }
+    } else {
+        console.log('2')
+        eUser = {
+            age: age.value,
+            name: name.value,
+            surname: surname.value,
+            id: id.value,
+            email: email.value,
+            password: password.value,
+            roles: tempRol,
+            passwordConfirm: false
+        }
     }
     //передаем данные в базу
     if (nameButton === 'editUser') {
@@ -285,7 +306,8 @@ submitButtonNewUserBS.onclick = () => {
         surname: nUSurname.value,
         email: nUEmail.value,
         password: nUPassword.value,
-        roles: tempRol
+        roles: tempRol,
+        passwordConfirm: true
     }
 
     fetch(urlUsers, {
@@ -339,11 +361,15 @@ async function fetchAsyncT(dataDB, url, strHtml) {
     }
 }
 
+call()
+
+async function call() {
 //считываем роли
-fetchAsyncT(allRoles, urlAllRoles, nURoles)
+    await fetchAsyncT(allRoles, urlAllRoles, nURoles)
 //считываем всех пользователей
-fetchAsyncT(usersTableJS, urlUsers, userTable)
+    await fetchAsyncT(usersTableJS, urlUsers, userTable)
 //вызов для верхней строки
-fetchAsyncT(lUserEmail, urlLoginUser, loginUserEmail)
+    await fetchAsyncT(lUserEmail, urlLoginUser, loginUserEmail)
 //вызов для строки залогиненого пользовател
-fetchAsyncT(usersTableJS, urlLoginUser, loginUserTable)
+    await fetchAsyncT(usersTableJS, urlLoginUser, loginUserTable)
+}

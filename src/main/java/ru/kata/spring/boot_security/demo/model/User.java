@@ -24,7 +24,7 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
     @Transient
-    private String passwordConfirm;
+    private boolean passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
@@ -110,11 +110,11 @@ public class User implements UserDetails {
         return true;
     }
 
-    public String getPasswordConfirm() {
+    public boolean getPasswordConfirm() {
         return passwordConfirm;
     }
 
-    public void setPasswordConfirm(String passwordConfirm) {
+    public void setPasswordConfirm(boolean passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
 
